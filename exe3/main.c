@@ -24,19 +24,22 @@ void data_task(void *p) {
 }
 
 void process_task(void *p) {
+    int amostras[5] = {0};
+    int index = 0;
+    int sum = 0; 
     int data = 0;
 
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
-            // implementar filtro aqui!
-            int sum = 0;
-            for (int i = 0; i < 5; i++) {
-                sum += data;
-            }
-            int avg = sum / 5;
-            printf("%d\n", avg); // Corrigido para usar o formato correto
+            sum -= amostras[index];
+            amostras[index] = data;
+            sum += data;
 
-            // deixar esse delay!
+            index = (index + 1);
+            int avg = sum / 5;
+            printf("%d\n", avg);
+
+            // Deixar esse delay!
             vTaskDelay(pdMS_TO_TICKS(50));
         }
     }

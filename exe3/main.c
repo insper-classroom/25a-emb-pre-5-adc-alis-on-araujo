@@ -24,9 +24,9 @@ void data_task(void *p) {
 }
 
 void process_task(void *p) {
-    int amostras[5] = {0};
-    int index = 0;
-    int sum = 0; 
+    int amostras[5] = {0}; // Buffer circular para armazenar as últimas 5 amostras
+    int index = 0;         // Índice para o buffer
+    int sum = 0;           // Soma das amostras no buffer
     int data = 0;
 
     while (true) {
@@ -35,7 +35,7 @@ void process_task(void *p) {
             amostras[index] = data;
             sum += data;
 
-            index = (index + 1);
+            index = (index + 1) % 5;
             int avg = sum / 5;
             printf("%d\n", avg);
 
